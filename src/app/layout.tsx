@@ -5,6 +5,7 @@ import { Geist } from "next/font/google";
 import { MainNav } from "@/app/components/layouts/MainNav";
 import { AudioProvider } from "@/app/contexts/AudioContext";
 import { AudioPlayer } from "@/app/components/ui/AudioPlayer";
+import { Providers } from "./providers";
 import "./globals.css";
 
 const geist = Geist({
@@ -33,7 +34,9 @@ export default function RootLayout({
         <body className="min-h-screen bg-gray-950 text-white antialiased">
           <AudioProvider>
             <MainNav />
-            <main className="flex-1">{children}</main>
+            <Providers>
+              <main className="flex-1">{children}</main>
+            </Providers>
             <AudioPlayer />
           </AudioProvider>
         </body>

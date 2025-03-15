@@ -1,22 +1,22 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import Link from "next/link"
-import Image from "next/image"
-import { Music, Users } from "lucide-react"
+import { useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { Music, Users } from "lucide-react";
 
-import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "./badge"
-import { cn } from "@/lib/utils"
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "./badge";
+import { cn } from "@/lib/utils";
 
 interface ArtistCardProps {
-  artist: SpotifyApi.ArtistObjectFull
+  artist: SpotifyApi.ArtistObjectFull;
 }
 
 export function ArtistCard({ artist }: ArtistCardProps) {
-  const [imageError, setImageError] = useState(false)
-  const imageUrl = artist.images?.[0]?.url
-  const formattedFollowers = artist.followers?.total?.toLocaleString() || "0"
+  const [imageError, setImageError] = useState(false);
+  const imageUrl = artist.images?.[0]?.url;
+  const formattedFollowers = artist.followers?.total?.toLocaleString() || "0";
 
   return (
     <Link
@@ -26,7 +26,7 @@ export function ArtistCard({ artist }: ArtistCardProps) {
       <Card className="h-full overflow-hidden border-0 bg-gradient-to-b from-gray-800/40 to-gray-900/60 backdrop-blur-sm transition-all duration-300 hover:shadow-xl hover:shadow-green-500/5 group">
         <CardContent className="p-0">
           <div className="relative">
-            <div className="aspect-square w-full overflow-hidden">
+            <div className="aspect-square w-full overflow-hidden relative">
               {imageUrl && !imageError ? (
                 <Image
                   src={imageUrl || "/placeholder.svg"}
@@ -35,7 +35,7 @@ export function ArtistCard({ artist }: ArtistCardProps) {
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   className={cn(
                     "object-cover transition-all duration-500 ease-out",
-                    "group-hover:scale-105 group-hover:brightness-110",
+                    "group-hover:scale-105 group-hover:brightness-110"
                   )}
                   onError={() => setImageError(true)}
                 />
@@ -78,6 +78,5 @@ export function ArtistCard({ artist }: ArtistCardProps) {
         </CardContent>
       </Card>
     </Link>
-  )
+  );
 }
-
