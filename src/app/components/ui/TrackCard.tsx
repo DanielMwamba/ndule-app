@@ -8,36 +8,24 @@ import {
   BsSpotify,
 } from "react-icons/bs";
 import Image from "next/image";
-import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
+import { useAudio } from "@/app/contexts/AudioContext";
 
 interface TrackCardProps {
   track: SpotifyApi.TrackObjectFull;
 }
 
 export function TrackCard({ track }: TrackCardProps) {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const { currentTrack, isPlaying, playTrack, pauseTrack } = useAudio();
+  const isCurrentTrack = currentTrack?.id === track.id;
 
-  const togglePlay = (e: React.MouseEvent) => {
+  const handlePlayClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    if (!track.preview_url) {
-      // Si pas de preview_url, ouvrir Spotify
-      window.open(track.external_urls.spotify, "_blank");
-      return;
-    }
-
-    if (!audioRef.current) {
-      audioRef.current = new Audio(track.preview_url);
-      audioRef.current.addEventListener("ended", () => setIsPlaying(false));
-    }
-
-    if (isPlaying) {
-      audioRef.current.pause();
+    if (isCurrentTrack && isPlaying) {
+      pauseTrack();
     } else {
-      audioRef.current.play();
+      playTrack(track);
     }
-    setIsPlaying(!isPlaying);
   };
 
   return (
@@ -63,11 +51,11 @@ export function TrackCard({ track }: TrackCardProps) {
             size="icon"
             variant="secondary"
             className="absolute -right-2 -bottom-2 w-8 h-8 rounded-full opacity-0 group-hover:opacity-100 transition-opacity bg-green-500 hover:bg-green-600"
-            onClick={togglePlay}
+            onClick={handlePlayClick}
           >
             {!track.preview_url ? (
               <BsSpotify className="w-4 h-4 text-white" />
-            ) : isPlaying ? (
+            ) : isCurrentTrack && isPlaying ? (
               <BsPauseFill className="w-4 h-4 text-white" />
             ) : (
               <BsPlayFill className="w-4 h-4 text-white" />

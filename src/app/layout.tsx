@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
 import { Geist } from "next/font/google";
-import { MainNav } from "./components/layouts/MainNav";
+import { MainNav } from "@/app/components/layouts/MainNav";
+import { AudioProvider } from "@/app/contexts/AudioContext";
+import { AudioPlayer } from "@/app/components/ui/AudioPlayer";
 import "./globals.css";
 
 const geist = Geist({
@@ -29,8 +31,11 @@ export default function RootLayout({
     >
       <html lang="fr" className={geist.variable}>
         <body className="min-h-screen bg-gray-950 text-white antialiased">
-          <MainNav />
-          <main className="flex-1">{children}</main>
+          <AudioProvider>
+            <MainNav />
+            <main className="flex-1">{children}</main>
+            <AudioPlayer />
+          </AudioProvider>
         </body>
       </html>
     </ClerkProvider>
