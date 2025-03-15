@@ -1,5 +1,7 @@
+"use client";
+
 import { useState, useCallback } from "react";
-import { SpotifyService, SearchResults } from "../services/spotify";
+import { spotifyService, SearchResults } from "../services/spotify";
 
 export const useSpotify = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -13,9 +15,11 @@ export const useSpotify = () => {
     try {
       setIsLoading(true);
       setError(null);
-      const spotify = SpotifyService.getInstance();
-      const results = await spotify.searchArtistsAndTracks(query);
+      const results = await spotifyService.searchArtistsAndTracks(query);
       setSearchResults(results);
+      if (results.error) {
+        setError(results.error);
+      }
     } catch (err) {
       setError("Une erreur est survenue lors de la recherche");
       console.error(err);
@@ -28,8 +32,7 @@ export const useSpotify = () => {
     try {
       setIsLoading(true);
       setError(null);
-      const spotify = SpotifyService.getInstance();
-      const details = await spotify.getArtistDetails(artistId);
+      const details = await spotifyService.getArtistDetails(artistId);
       setArtistDetails(details);
     } catch (err) {
       setError(

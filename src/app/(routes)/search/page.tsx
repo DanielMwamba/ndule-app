@@ -5,9 +5,10 @@ import { useSpotify } from "@/app/hooks/useSpotify";
 import { useEffect } from "react";
 import { SearchInput } from "@/app/components/ui/SearchInput";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
+import { ArtistCard } from "@/app/components/ui/ArtistCard";
+import { TrackCard } from "@/app/components/ui/TrackCard";
 
 export default function SearchPage() {
   const searchParams = useSearchParams();
@@ -42,20 +43,14 @@ export default function SearchPage() {
                     ? Array(6)
                         .fill(0)
                         .map((_, i) => (
-                          <Card key={i}>
-                            <CardContent className="p-4">
-                              <Skeleton className="h-[200px] w-full rounded-lg" />
-                              <Skeleton className="h-4 w-3/4 mt-4" />
-                              <Skeleton className="h-4 w-1/2 mt-2" />
-                            </CardContent>
-                          </Card>
+                          <div key={i} className="space-y-3">
+                            <Skeleton className="h-[200px] w-full rounded-lg" />
+                            <Skeleton className="h-4 w-3/4" />
+                            <Skeleton className="h-4 w-1/2" />
+                          </div>
                         ))
                     : searchResults?.artists.map((artist) => (
-                        <Card key={artist.id}>
-                          <CardContent className="p-4">
-                            {/* Contenu de l'artiste */}
-                          </CardContent>
-                        </Card>
+                        <ArtistCard key={artist.id} artist={artist} />
                       ))}
                 </div>
               </ScrollArea>
@@ -63,27 +58,21 @@ export default function SearchPage() {
 
             <TabsContent value="tracks">
               <ScrollArea className="h-[600px] w-full rounded-md border p-4">
-                <div className="space-y-4">
+                <div className="space-y-2">
                   {isLoading
                     ? Array(6)
                         .fill(0)
                         .map((_, i) => (
-                          <Card key={i}>
-                            <CardContent className="p-4 flex items-center space-x-4">
-                              <Skeleton className="h-12 w-12 rounded" />
-                              <div className="space-y-2">
-                                <Skeleton className="h-4 w-[200px]" />
-                                <Skeleton className="h-4 w-[150px]" />
-                              </div>
-                            </CardContent>
-                          </Card>
+                          <div key={i} className="flex items-center space-x-4">
+                            <Skeleton className="h-12 w-12 rounded" />
+                            <div className="space-y-2">
+                              <Skeleton className="h-4 w-[200px]" />
+                              <Skeleton className="h-4 w-[150px]" />
+                            </div>
+                          </div>
                         ))
                     : searchResults?.tracks.map((track) => (
-                        <Card key={track.id}>
-                          <CardContent className="p-4">
-                            {/* Contenu du morceau */}
-                          </CardContent>
-                        </Card>
+                        <TrackCard key={track.id} track={track} />
                       ))}
                 </div>
               </ScrollArea>

@@ -1,9 +1,7 @@
 import SpotifyWebApi from "spotify-web-api-node";
 
 const spotifyApi = new SpotifyWebApi({
-  clientId: process.env.SPOTIFY_CLIENT_ID,
-  clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
-  redirectUri: process.env.SPOTIFY_REDIRECT_URI,
+  clientId: process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID,
 });
 
 export interface SearchResults {
@@ -12,9 +10,10 @@ export interface SearchResults {
   error?: string;
 }
 
-export class SpotifyService {
+class SpotifyService {
   private static instance: SpotifyService;
   private accessToken: string | null = null;
+  private tokenExpirationTime: number | null = null;
 
   private constructor() {}
 
@@ -25,20 +24,40 @@ export class SpotifyService {
     return SpotifyService.instance;
   }
 
-  async initialize() {
+  private async refreshAccessToken() {
     try {
-      const data = await spotifyApi.clientCredentialsGrant();
-      this.accessToken = data.body.access_token;
-      spotifyApi.setAccessToken(this.accessToken);
+      const response = await fetch("/api/spotify/token");
+      const data = await response.json();
+
+      if (data.error) {
+        throw new Error(data.error);
+      }
+
+      this.accessToken = data.access_token;
+      this.tokenExpirationTime = Date.now() + data.expires_in * 1000;
+
+      if (this.accessToken) {
+        spotifyApi.setAccessToken(this.accessToken);
+      }
     } catch (error) {
-      console.error("Error initializing Spotify API:", error);
+      console.error("Error refreshing token:", error);
       throw error;
+    }
+  }
+
+  private async ensureValidToken() {
+    if (
+      !this.accessToken ||
+      !this.tokenExpirationTime ||
+      Date.now() >= this.tokenExpirationTime
+    ) {
+      await this.refreshAccessToken();
     }
   }
 
   async searchArtistsAndTracks(query: string): Promise<SearchResults> {
     try {
-      if (!this.accessToken) await this.initialize();
+      await this.ensureValidToken();
 
       const [artistsResponse, tracksResponse] = await Promise.all([
         spotifyApi.searchArtists(query),
@@ -61,7 +80,7 @@ export class SpotifyService {
 
   async getArtistDetails(artistId: string) {
     try {
-      if (!this.accessToken) await this.initialize();
+      await this.ensureValidToken();
 
       const [artist, topTracks, albums] = await Promise.all([
         spotifyApi.getArtist(artistId),
@@ -80,3 +99,5 @@ export class SpotifyService {
     }
   }
 }
+
+export const spotifyService = SpotifyService.getInstance();
