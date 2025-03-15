@@ -23,24 +23,6 @@ interface Artist {
   };
 }
 
-interface Track {
-  id: string;
-  name: string;
-  album: {
-    images: { url: string }[];
-    name: string;
-  };
-  artists: {
-    id: string;
-    name: string;
-  }[];
-  duration_ms: number;
-  preview_url: string;
-  external_urls: {
-    spotify: string;
-  };
-}
-
 interface Album {
   id: string;
   name: string;
@@ -58,7 +40,21 @@ export default function ArtistPage({
   params: Promise<{ id: string }>;
 }) {
   const resolvedParams = use(params);
-  const { getArtist, artistDetails, isLoading, error } = useSpotify();
+  const {
+    getArtist,
+    artistDetails,
+    isLoading,
+    error,
+  }: {
+    getArtist: (id: string) => void;
+    artistDetails: {
+      artist: Artist;
+      topTracks: SpotifyApi.TrackObjectFull[];
+      albums: Album[];
+    } | null;
+    isLoading: boolean;
+    error: string | null;
+  } = useSpotify();
 
   useEffect(() => {
     getArtist(resolvedParams.id);
@@ -157,9 +153,11 @@ export default function ArtistPage({
               <TabsContent value="top-tracks">
                 <ScrollArea className="h-[600px]">
                   <div className="space-y-2">
-                    {artistDetails.topTracks.map((track: Track) => (
-                      <TrackCard key={track.id} track={track} />
-                    ))}
+                    {artistDetails.topTracks.map(
+                      (track: SpotifyApi.TrackObjectFull) => (
+                        <TrackCard key={track.id} track={track} />
+                      )
+                    )}
                   </div>
                 </ScrollArea>
               </TabsContent>
