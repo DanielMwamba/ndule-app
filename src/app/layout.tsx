@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
-import { ClerkProvider, 
+import {
+  ClerkProvider,
   SignInButton,
   SignUpButton,
   UserButton,
   SignedIn,
   SignedOut,
- } from "@clerk/nextjs";
+} from "@clerk/nextjs";
+import { dark } from "@clerk/themes";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -30,24 +32,44 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <header>
-          <SignedIn>
-            <UserButton />
-          </SignedIn>
-          <SignedOut>
-            <SignInButton />
-            <SignUpButton />
-          </SignedOut>
-        </header>
-        {children}
-      </body>
-    </html>
+    <ClerkProvider
+      appearance={{
+        baseTheme: dark,
+        variables: { colorPrimary: "#22c55e" },
+      }}
+    >
+      <html lang="en">
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
+          <header className="fixed top-0 right-0 p-4">
+            <SignedIn>
+              <UserButton
+                appearance={{
+                  elements: {
+                    userButtonBox: "hover:opacity-80 transition-opacity",
+                  },
+                }}
+              />
+            </SignedIn>
+            <SignedOut>
+              <div className="space-x-4">
+                <SignInButton mode="modal">
+                  <button className="px-4 py-2 text-sm font-medium text-white bg-gray-800 rounded-lg hover:bg-gray-700">
+                    Connexion
+                  </button>
+                </SignInButton>
+                <SignUpButton mode="modal">
+                  <button className="px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-500">
+                    Inscription
+                  </button>
+                </SignUpButton>
+              </div>
+            </SignedOut>
+          </header>
+          <main>{children}</main>
+        </body>
+      </html>
     </ClerkProvider>
-    
   );
 }
