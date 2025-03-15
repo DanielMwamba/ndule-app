@@ -79,9 +79,8 @@ class SpotifyService {
   }
 
   async getArtistDetails(artistId: string) {
+    await this.ensureValidToken();
     try {
-      await this.ensureValidToken();
-
       const [artist, topTracks, albums] = await Promise.all([
         spotifyApi.getArtist(artistId),
         spotifyApi.getArtistTopTracks(artistId, "FR"),
@@ -95,6 +94,17 @@ class SpotifyService {
       };
     } catch (error) {
       console.error("Error fetching artist details:", error);
+      throw error;
+    }
+  }
+
+  async getAlbumDetails(albumId: string) {
+    await this.ensureValidToken();
+    try {
+      const album = await spotifyApi.getAlbum(albumId);
+      return album.body;
+    } catch (error) {
+      console.error("Error fetching album details:", error);
       throw error;
     }
   }

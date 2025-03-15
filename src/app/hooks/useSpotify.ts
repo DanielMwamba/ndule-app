@@ -10,6 +10,7 @@ export const useSpotify = () => {
     null
   );
   const [artistDetails, setArtistDetails] = useState<any>(null);
+  const [albumDetails, setAlbumDetails] = useState<any>(null);
 
   const searchMusic = useCallback(async (query: string) => {
     try {
@@ -44,12 +45,30 @@ export const useSpotify = () => {
     }
   }, []);
 
+  const getAlbum = useCallback(async (albumId: string) => {
+    try {
+      setIsLoading(true);
+      setError(null);
+      const details = await spotifyService.getAlbumDetails(albumId);
+      setAlbumDetails(details);
+    } catch (err) {
+      setError(
+        "Une erreur est survenue lors de la récupération des détails de l'album"
+      );
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
   return {
     isLoading,
     error,
     searchResults,
     artistDetails,
+    albumDetails,
     searchMusic,
     getArtist,
+    getAlbum,
   };
 };

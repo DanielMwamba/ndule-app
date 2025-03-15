@@ -166,31 +166,34 @@ export default function ArtistPage({
                 <ScrollArea className="h-[600px]">
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {artistDetails.albums.map((album: Album) => (
-                      <Card
+                      <a
                         key={album.id}
-                        className="hover:bg-gray-800/50 transition-colors"
+                        href={`/albums/${album.id}`}
+                        className="block"
                       >
-                        <CardContent className="p-4">
-                          <div className="aspect-square w-full relative rounded-lg overflow-hidden mb-4">
-                            {album.images?.[0]?.url ? (
-                              <Image
-                                src={album.images[0].url}
-                                alt={album.name}
-                                fill
-                                className="object-cover"
-                              />
-                            ) : (
-                              <div className="w-full h-full bg-gray-800" />
-                            )}
-                          </div>
-                          <h3 className="text-lg font-semibold text-white truncate">
-                            {album.name}
-                          </h3>
-                          <p className="text-sm text-gray-400">
-                            {new Date(album.release_date).getFullYear()}
-                          </p>
-                        </CardContent>
-                      </Card>
+                        <Card className="hover:bg-gray-800/50 transition-colors cursor-pointer">
+                          <CardContent className="p-4">
+                            <div className="aspect-square w-full relative rounded-lg overflow-hidden mb-4">
+                              {album.images?.[0]?.url ? (
+                                <Image
+                                  src={album.images[0].url}
+                                  alt={album.name}
+                                  fill
+                                  className="object-cover"
+                                />
+                              ) : (
+                                <div className="w-full h-full bg-gray-800" />
+                              )}
+                            </div>
+                            <h3 className="text-lg font-semibold text-white truncate">
+                              {album.name}
+                            </h3>
+                            <p className="text-sm text-gray-400">
+                              {new Date(album.release_date).getFullYear()}
+                            </p>
+                          </CardContent>
+                        </Card>
+                      </a>
                     ))}
                   </div>
                 </ScrollArea>
