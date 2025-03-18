@@ -116,20 +116,20 @@ class SpotifyService {
         categoriesResponse,
         playlistsResponse,
       ] = await Promise.all([
-        spotifyApi.getNewReleases({ limit: 10, country: "FR" }),
+        spotifyApi.getNewReleases({ limit: 20, country: "FR" }),
         spotifyApi.getArtists([
           "3TVXtAsR1Inumwj472S9r4", // Drake
           "06HL4z0CvFAxyc27GXpf02", // Taylor Swift
         ]),
         spotifyApi.searchTracks("genre:pop year:2024", {
-          limit: 8,
+          limit: 10,
           market: "FR",
         }),
         spotifyApi.getCategories({
-          limit: 6,
+          limit: 10,
           country: "FR",
         }),
-        spotifyApi.searchPlaylists("top hits 2024", {
+        spotifyApi.searchPlaylists("top hits 2025", {
           limit: 10,
           market: "FR",
         }),
