@@ -1,24 +1,29 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import { FaChevronRight, FaPlay, FaMusic } from "react-icons/fa"
-import { HiSparkles } from "react-icons/hi2"
-import Image from "next/image"
-import Link from "next/link"
-import type { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime"
-import type { Artist } from "@/types/spotify"
+import { motion } from "framer-motion";
+import { FaChevronRight, FaPlay, FaMusic } from "react-icons/fa";
+import { HiSparkles } from "react-icons/hi2";
+import Image from "next/image";
+import Link from "next/link";
+import type { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import type { ArtistObjectFull as Artist } from "@/features/spotify/types";
 
-import { Button } from "@/components/ui/button"
-import { Skeleton } from "@/components/ui/skeleton"
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface FeaturedArtistsSectionProps {
-  isLoading: boolean
-  error: string | null
-  featuredArtists: Artist[] | undefined
-  router: AppRouterInstance
+  isLoading: boolean;
+  error: string | null;
+  featuredArtists: Artist[] | undefined;
+  router: AppRouterInstance;
 }
 
-export function FeaturedArtistsSection({ isLoading, error, featuredArtists, router }: FeaturedArtistsSectionProps) {
+export function FeaturedArtistsSection({
+  isLoading,
+  error,
+  featuredArtists,
+  router,
+}: FeaturedArtistsSectionProps) {
   // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -28,12 +33,12 @@ export function FeaturedArtistsSection({ isLoading, error, featuredArtists, rout
         staggerChildren: 0.1,
       },
     },
-  }
+  };
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-  }
+  };
 
   return (
     <section className="relative py-16 px-4 sm:px-6 lg:px-8 overflow-hidden">
@@ -59,7 +64,9 @@ export function FeaturedArtistsSection({ isLoading, error, featuredArtists, rout
               <div className="absolute inset-0 bg-green-500/20 blur-md rounded-full" />
               <HiSparkles className="h-6 w-6 text-green-400 relative" />
             </div>
-            <h2 className="text-2xl md:text-3xl font-bold text-white tracking-tight">Artistes à Découvrir</h2>
+            <h2 className="text-2xl md:text-3xl font-bold text-white tracking-tight">
+              Artistes à Découvrir
+            </h2>
           </div>
           <Button
             variant="ghost"
@@ -116,7 +123,11 @@ export function FeaturedArtistsSection({ isLoading, error, featuredArtists, rout
             className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6 md:gap-8"
           >
             {featuredArtists?.map((artist) => (
-              <motion.div key={artist.id} variants={itemVariants} className="flex flex-col items-center group">
+              <motion.div
+                key={artist.id}
+                variants={itemVariants}
+                className="flex flex-col items-center group"
+              >
                 <Link href={`/artists/${artist.id}`} className="block w-full">
                   <div className="relative h-32 w-32 sm:h-40 sm:w-40 rounded-full overflow-hidden mb-4 mx-auto group-hover:shadow-lg group-hover:shadow-green-500/20 transition-all duration-300">
                     {/* Glow effect on hover */}
@@ -144,7 +155,11 @@ export function FeaturedArtistsSection({ isLoading, error, featuredArtists, rout
 
                     {/* Overlay with play button */}
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100 z-20">
-                      <motion.div initial={{ scale: 0.8 }} whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
+                      <motion.div
+                        initial={{ scale: 0.8 }}
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.95 }}
+                      >
                         <Button
                           size="icon"
                           className="h-10 w-10 rounded-full bg-green-500 hover:bg-green-600 text-white shadow-lg"
@@ -159,7 +174,11 @@ export function FeaturedArtistsSection({ isLoading, error, featuredArtists, rout
                     <motion.h3
                       className="font-semibold text-white group-hover:text-green-400 transition-colors truncate"
                       whileHover={{ scale: 1.03 }}
-                      transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 400,
+                        damping: 10,
+                      }}
                     >
                       {artist.name}
                     </motion.h3>
@@ -180,6 +199,5 @@ export function FeaturedArtistsSection({ isLoading, error, featuredArtists, rout
         )}
       </div>
     </section>
-  )
+  );
 }
-

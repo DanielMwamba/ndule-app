@@ -1,7 +1,7 @@
 "use client";
 
 import { use, useEffect, useState } from "react";
-import { useSpotify } from "@/app/hooks/useSpotify";
+import { useSpotify } from "@/features/spotify/hooks/useSpotify";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { TrackCard } from "@/app/components/ui/TrackCard";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -10,10 +10,7 @@ import { Album, Clock, ExternalLink, Music, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/app/components/ui/badge";
 import { Separator } from "@/app/components/ui/separator";
-import type {
-  AlbumObjectFull,
-  TrackObjectFull,
-} from "@/lib/spotify";
+import type { AlbumObjectFull } from "@/features/spotify/types";
 
 export default function AlbumPage({
   params,
@@ -216,30 +213,19 @@ export default function AlbumPage({
 
             <ScrollArea className="h-[600px] pr-4">
               <div className="space-y-2">
-                {albumDetails?.tracks?.items?.map((track: TrackObjectFull) => (
+                {albumDetails?.tracks?.items?.map((track) => (
                   <TrackCard
                     key={track.id}
-                    track={
-                      {
-                        ...track,
-                        type: "track",
-                        uri: `spotify:track:${track.id}`,
-                        href: `https://api.spotify.com/v1/tracks/${track.id}`,
-                        external_ids: {},
-                        popularity: 0,
-                        disc_number: 1,
-                        album: {
-                          ...albumDetails,
-                          album_type: albumDetails.album_type,
-                          type: "album",
-                          uri: `spotify:album:${albumDetails.id}`,
-                          available_markets: [],
-                          release_date_precision: "day",
-                          restrictions: {},
-                          total_tracks: albumDetails.total_tracks,
-                        },
-                      } as TrackObjectFull
-                    }
+                    track={{
+                      ...track,
+                      external_ids: {},
+                      popularity: 0,
+                      album: {
+                        ...albumDetails,
+                        restrictions: { reason: "market" },
+                        available_markets: [],
+                      },
+                    }}
                   />
                 )) || []}
               </div>

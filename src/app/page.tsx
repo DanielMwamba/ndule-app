@@ -1,20 +1,130 @@
 "use client";
 
 import type React from "react";
-
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useSpotify } from "@/app/hooks/useSpotify";
+import { useSpotify } from "@/features/spotify/hooks/useSpotify";
 import { useSession } from "next-auth/react";
+import dynamic from "next/dynamic";
+import type {
+  TrackObjectFull,
+  ArtistObjectFull,
+  CategoryObject,
+  SimplifiedPlaylist,
+} from "@/features/spotify/types";
 
-import { HeroSection } from "@/app/components/sections/Hero";
-import { FeaturesSection } from "@/app/components/sections/Features";
-import { TrendingTracksSection } from "@/app/components/sections/TrendingTracks";
-import { FeaturedArtistsSection } from "@/app/components/sections/FeaturedArtists";
-import { GenresPlaylistsSection } from "@/app/components/sections/GenresPlaylists";
-import { CTASection } from "@/app/components/sections/CTA";
-import { Footer } from "@/app/components/sections/Footer";
-import { FloatingSearchBar } from "@/app/components/sections/FloatingSearchBar";
+// Types pour les props des composants
+interface HeroSectionProps {
+  searchQuery: string;
+  setSearchQuery: (query: string) => void;
+  handleSearch: (e: React.FormEvent, query: string) => void;
+}
+
+interface FloatingSearchBarProps {
+  scrolled: boolean;
+  searchQuery: string;
+  setSearchQuery: (query: string) => void;
+  handleSearch: (e: React.FormEvent, query: string) => void;
+}
+
+interface TrendingTracksProps {
+  isLoading: boolean;
+  error: string | null;
+  trendingTracks: TrackObjectFull[];
+  router: ReturnType<typeof useRouter>;
+  accessToken: string | null;
+}
+
+interface FeaturedArtistsProps {
+  isLoading: boolean;
+  error: string | null;
+  featuredArtists: ArtistObjectFull[];
+  router: ReturnType<typeof useRouter>;
+}
+
+interface GenresPlaylistsProps {
+  isLoading: boolean;
+  error: string | null;
+  categories: CategoryObject[];
+  featuredPlaylists: SimplifiedPlaylist[];
+  activeTab: string;
+  setActiveTab: (tab: string) => void;
+  router: ReturnType<typeof useRouter>;
+}
+
+// Lazy load components avec leurs types
+const HeroSection = dynamic<HeroSectionProps>(
+  () =>
+    import("@/app/components/sections/Hero").then((mod) => ({
+      default: mod.HeroSection,
+    })),
+  {
+    loading: () => <div className="h-screen" />,
+  }
+);
+const FeaturesSection = dynamic(
+  () =>
+    import("@/app/components/sections/Features").then((mod) => ({
+      default: mod.FeaturesSection,
+    })),
+  {
+    loading: () => <div className="h-96" />,
+  }
+);
+const TrendingTracksSection = dynamic<TrendingTracksProps>(
+  () =>
+    import("@/app/components/sections/TrendingTracks").then((mod) => ({
+      default: mod.TrendingTracksSection,
+    })),
+  {
+    loading: () => <div className="h-96" />,
+  }
+);
+const FeaturedArtistsSection = dynamic<FeaturedArtistsProps>(
+  () =>
+    import("@/app/components/sections/FeaturedArtists").then((mod) => ({
+      default: mod.FeaturedArtistsSection,
+    })),
+  {
+    loading: () => <div className="h-96" />,
+  }
+);
+const GenresPlaylistsSection = dynamic<GenresPlaylistsProps>(
+  () =>
+    import("@/app/components/sections/GenresPlaylists").then((mod) => ({
+      default: mod.GenresPlaylistsSection,
+    })),
+  {
+    loading: () => <div className="h-96" />,
+  }
+);
+const CTASection = dynamic(
+  () =>
+    import("@/app/components/sections/CTA").then((mod) => ({
+      default: mod.CTASection,
+    })),
+  {
+    loading: () => <div className="h-96" />,
+  }
+);
+const Footer = dynamic(
+  () =>
+    import("@/app/components/sections/Footer").then((mod) => ({
+      default: mod.Footer,
+    })),
+  {
+    loading: () => <div className="h-32" />,
+  }
+);
+const FloatingSearchBar = dynamic<FloatingSearchBarProps>(
+  () =>
+    import("@/app/components/sections/FloatingSearchBar").then((mod) => ({
+      default: mod.FloatingSearchBar,
+    })),
+  {
+    loading: () => <div className="h-16" />,
+  }
+);
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -79,7 +189,7 @@ export default function Home() {
       <TrendingTracksSection
         isLoading={isLoading}
         error={error}
-        trendingTracks={homePageData?.trendingTracks}
+        trendingTracks={homePageData?.trendingTracks ?? []}
         router={router}
         accessToken={accessToken}
       />
@@ -88,7 +198,7 @@ export default function Home() {
       <FeaturedArtistsSection
         isLoading={isLoading}
         error={error}
-        featuredArtists={homePageData?.featuredArtists}
+        featuredArtists={homePageData?.featuredArtists ?? []}
         router={router}
       />
 
@@ -96,8 +206,8 @@ export default function Home() {
       <GenresPlaylistsSection
         isLoading={isLoading}
         error={error}
-        categories={homePageData?.categories}
-        featuredPlaylists={homePageData?.featuredPlaylists}
+        categories={homePageData?.categories ?? []}
+        featuredPlaylists={homePageData?.featuredPlaylists ?? []}
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         router={router}

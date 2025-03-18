@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect } from "react";
-import { useSpotify } from "@/app/hooks/useSpotify";
+import { useSpotify } from "@/features/spotify/hooks/useSpotify";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import type { CategoryObject } from "@/features/spotify/types";
 
 export default function GenresPage() {
   const { getHomePageData, homePageData, isLoading, error } = useSpotify();
@@ -29,7 +30,7 @@ export default function GenresPage() {
           <div className="text-center text-red-500">{error}</div>
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {homePageData?.categories.map((genre) => (
+            {homePageData?.categories.map((genre: CategoryObject) => (
               <Card
                 key={genre.id}
                 className="bg-white/5 border-white/10 hover:bg-white/10 transition-colors group cursor-pointer"

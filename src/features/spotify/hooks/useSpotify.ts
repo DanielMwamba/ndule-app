@@ -1,11 +1,28 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { spotifyService } from "../services/spotify.service";
 import {
-  spotifyService,
   SearchResults,
   HomePageData,
-} from "../services/spotify";
+  ArtistObjectFull,
+  AlbumObjectFull,
+  TrackObjectFull,
+  AlbumObjectSimplified,
+} from "../types";
+
+interface ArtistDetails {
+  artist: ArtistObjectFull;
+  topTracks: TrackObjectFull[];
+  albums: AlbumObjectSimplified[];
+}
+
+interface FilteredResults {
+  artists: ArtistObjectFull[];
+  tracks: TrackObjectFull[];
+  albums: AlbumObjectSimplified[];
+  error?: string;
+}
 
 export const useSpotify = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -13,10 +30,15 @@ export const useSpotify = () => {
   const [searchResults, setSearchResults] = useState<SearchResults | null>(
     null
   );
-  const [artistDetails, setArtistDetails] = useState<any>(null);
-  const [albumDetails, setAlbumDetails] = useState<any>(null);
+  const [artistDetails, setArtistDetails] = useState<ArtistDetails | null>(
+    null
+  );
+  const [albumDetails, setAlbumDetails] = useState<AlbumObjectFull | null>(
+    null
+  );
   const [homePageData, setHomePageData] = useState<HomePageData | null>(null);
-  const [filteredResults, setFilteredResults] = useState<any>(null);
+  const [filteredResults, setFilteredResults] =
+    useState<FilteredResults | null>(null);
 
   const searchMusic = useCallback(async (query: string) => {
     try {

@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect } from "react";
-import { useSpotify } from "@/app/hooks/useSpotify";
+import { useSpotify } from "@/features/spotify/hooks/useSpotify";
 import { ArtistCard } from "@/app/components/ui/ArtistCard";
 import { Skeleton } from "@/components/ui/skeleton";
+import type { ArtistObjectFull } from "@/features/spotify/types";
 
 export default function ArtistsPage() {
   const { getHomePageData, homePageData, isLoading, error } = useSpotify();
@@ -34,7 +35,7 @@ export default function ArtistsPage() {
           <div className="text-center text-red-500">{error}</div>
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-            {homePageData?.featuredArtists.map((artist) => (
+            {homePageData?.featuredArtists.map((artist: ArtistObjectFull) => (
               <ArtistCard key={artist.id} artist={artist} />
             ))}
           </div>

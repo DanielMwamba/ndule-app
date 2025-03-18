@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useSpotify } from "@/app/hooks/useSpotify";
+import { useSpotify } from "@/features/spotify/hooks/useSpotify";
 import { useEffect } from "react";
 import { SearchInput } from "@/app/components/ui/SearchInput";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -9,6 +9,10 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ArtistCard } from "@/app/components/ui/ArtistCard";
 import { TrackCard } from "@/app/components/ui/TrackCard";
+import type {
+  ArtistObjectFull,
+  TrackObjectFull,
+} from "@/features/spotify/types";
 
 export default function SearchPage() {
   const searchParams = useSearchParams();
@@ -23,10 +27,7 @@ export default function SearchPage() {
 
   return (
     <div className="container mx-auto py-8 px-4">
-      <SearchInput
-        placeholder="Rechercher un artiste, une chanson..."
-        className="max-w-2xl mx-auto mb-8"
-      />
+      <SearchInput />
 
       {query && (
         <Tabs defaultValue="artists" className="w-full">
@@ -49,7 +50,7 @@ export default function SearchPage() {
                             <Skeleton className="h-4 w-1/2" />
                           </div>
                         ))
-                    : searchResults?.artists.map((artist) => (
+                    : searchResults?.artists.map((artist: ArtistObjectFull) => (
                         <ArtistCard key={artist.id} artist={artist} />
                       ))}
                 </div>
@@ -71,7 +72,7 @@ export default function SearchPage() {
                             </div>
                           </div>
                         ))
-                    : searchResults?.tracks.map((track) => (
+                    : searchResults?.tracks.map((track: TrackObjectFull) => (
                         <TrackCard key={track.id} track={track} />
                       ))}
                 </div>

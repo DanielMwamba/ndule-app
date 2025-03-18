@@ -5,7 +5,10 @@ import { FaChevronRight, FaPlay, FaListUl } from "react-icons/fa";
 import Image from "next/image";
 import Link from "next/link";
 import type { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
-import type { Category, Playlist } from "@/types/spotify";
+import type {
+  CategoryObject as Category,
+  SimplifiedPlaylist as Playlist,
+} from "@/features/spotify/types";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";

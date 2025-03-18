@@ -1,7 +1,7 @@
 "use client";
 
 import { use, useEffect } from "react";
-import { useSpotify } from "@/app/hooks/useSpotify";
+import { useSpotify } from "@/features/spotify/hooks/useSpotify";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Card, CardContent } from "@/components/ui/card";
@@ -12,7 +12,9 @@ import { ExternalLink, Music, Play, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/app/components/ui/badge";
 import { Progress } from "@/app/components/ui/progress";
-import type { TrackObjectFull } from "@/lib/spotify";
+import type {
+  TrackObjectFull,
+} from "@/features/spotify/types";
 
 interface Artist {
   id: string;

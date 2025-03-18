@@ -7,7 +7,7 @@ import { BsPlayFill, BsPauseFill, BsSpotify } from "react-icons/bs";
 import Image from "next/image";
 
 export function AudioPlayer() {
-  const { currentTrack, isPlaying, playTrack, pauseTrack, resumeTrack } =
+  const { currentTrack, isPlaying, pauseTrack, resumeTrack } =
     useAudio();
 
   if (!currentTrack) return null;

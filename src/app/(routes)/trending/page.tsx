@@ -1,11 +1,12 @@
 "use client";
 
 import { useEffect } from "react";
-import { useSpotify } from "@/app/hooks/useSpotify";
+import { useSpotify } from "@/features/spotify/hooks/useSpotify";
 import { TrackCard } from "@/app/components/ui/TrackCard";
 import { Skeleton } from "@/components/ui/skeleton";
+import type { TrackObjectFull } from "@/features/spotify/types";
 
-export default function TracksPage() {
+export default function TrendingPage() {
   const { getHomePageData, homePageData, isLoading, error } = useSpotify();
 
   useEffect(() => {
@@ -29,7 +30,7 @@ export default function TracksPage() {
           <div className="text-center text-red-500">{error}</div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {homePageData?.trendingTracks.map((track) => (
+            {homePageData?.trendingTracks.map((track: TrackObjectFull) => (
               <TrackCard key={track.id} track={track} />
             ))}
           </div>

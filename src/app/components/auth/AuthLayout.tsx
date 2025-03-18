@@ -1,6 +1,3 @@
-import { ClerkProvider } from "@clerk/nextjs";
-import { dark } from "@clerk/themes";
-
 interface AuthLayoutProps {
   children: React.ReactNode;
 }

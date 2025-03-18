@@ -12,13 +12,16 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import type { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
-import type { Track, Artist } from "@/types/spotify";
+import type {
+  TrackObjectFull as Track,
+  ArtistObjectSimplified,
+} from "@/features/spotify/types";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/app/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useSpotifyPlayer } from "@/app/hooks/useSpotifyPlayer";
+import { useSpotifyPlayer } from "@/features/spotify/hooks/useSpotifyPlayer";
 
 interface TrendingTracksSectionProps {
   isLoading: boolean;
@@ -35,8 +38,7 @@ export function TrendingTracksSection({
   router,
   accessToken,
 }: TrendingTracksSectionProps) {
-  const { playTrack, currentTrack, isPaused, togglePlay } =
-    useSpotifyPlayer(accessToken);
+  const { playTrack, currentTrack, isPaused } = useSpotifyPlayer(accessToken);
 
   // Animation variants
   const containerVariants = {
@@ -220,17 +222,19 @@ export function TrendingTracksSection({
                         {track.name}
                       </h3>
                       <p className="text-sm text-gray-400 truncate mt-1">
-                        {track.artists?.map((artist: Artist, i: number) => (
-                          <span key={artist.id}>
-                            {i > 0 && ", "}
-                            <Link
-                              href={`/artists/${artist.id}`}
-                              className="hover:text-green-400 hover:underline transition-colors"
-                            >
-                              {artist.name}
-                            </Link>
-                          </span>
-                        ))}
+                        {track.artists?.map(
+                          (artist: ArtistObjectSimplified, i: number) => (
+                            <span key={artist.id}>
+                              {i > 0 && ", "}
+                              <Link
+                                href={`/artists/${artist.id}`}
+                                className="hover:text-green-400 hover:underline transition-colors"
+                              >
+                                {artist.name}
+                              </Link>
+                            </span>
+                          )
+                        )}
                       </p>
 
                       {/* Track metadata */}
