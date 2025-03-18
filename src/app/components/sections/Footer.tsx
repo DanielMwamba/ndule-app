@@ -11,7 +11,7 @@ export function Footer() {
           <div>
             <div className="flex items-center gap-2 mb-4">
               <FaMusic className="h-5 w-5 text-green-500" />
-              <span className="font-bold text-white text-xl">MusicApp</span>
+              <span className="font-bold text-white text-xl">NduleApp</span>
             </div>
             <p className="text-gray-400 mb-4">
               Votre plateforme de musique en streaming avec des millions de titres et podcasts.

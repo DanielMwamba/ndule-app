@@ -16,7 +16,7 @@ const geist = Geist({
 });
 
 export const metadata: Metadata = {
-  title: "MusicApp - Découvrez la musique",
+  title: "NduleApp - Découvrez la musique",
   description: "Explorez des millions de chansons, artistes et paroles",
 };
 

@@ -24,7 +24,7 @@ export function FloatingSearchBar({ scrolled, searchQuery, setSearchQuery, handl
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 mr-4">
             <FaMusic className="h-5 w-5 text-green-500" />
-            <span className="font-bold text-white hidden sm:inline">MusicApp</span>
+            <span className="font-bold text-white hidden sm:inline">NduleApp</span>
           </div>
 
           <form onSubmit={(e) => handleSearch(e, searchQuery)} className="relative flex-1 max-w-2xl">
