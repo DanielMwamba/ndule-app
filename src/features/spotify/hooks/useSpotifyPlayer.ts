@@ -20,7 +20,10 @@ export const useSpotifyPlayer = (
 
   const playTrack = useCallback(
     async (trackUri: string) => {
-      if (!accessToken) return;
+      if (!accessToken) {
+        console.log("Acces token missing")
+        return;
+      } 
 
       try {
         const response = await fetch(
