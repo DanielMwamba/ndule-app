@@ -2,10 +2,7 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
-    if (
-      !process.env.SPOTIFY_CLIENT_ID ||
-      !process.env.SPOTIFY_CLIENT_SECRET
-    ) {
+    if (!process.env.SPOTIFY_CLIENT_ID || !process.env.SPOTIFY_CLIENT_SECRET) {
       throw new Error("Missing Spotify credentials");
     }
 
