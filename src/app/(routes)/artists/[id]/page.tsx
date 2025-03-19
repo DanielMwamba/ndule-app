@@ -244,7 +244,7 @@ export default function ArtistPage({
                   </div>
 
                   {/* Action Buttons */}
-                  <div className="flex flex-wrap gap-3">
+                  <div className="flex flex-wrap mt-9 gap-3">
                     <motion.div
                       initial={{ opacity: 0, scale: 0.9 }}
                       animate={{ opacity: 1, scale: 1 }}
