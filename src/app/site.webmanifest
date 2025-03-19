@@ -1,6 +1,8 @@
 {
-  "name": "Sonora",
-  "short_name": "Sonora",
+  "name": "NduleApp",
+  "short_name": "NduleApp",
+  "description": "Découvrez la musique sans limite",
+  "star_url": "/",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",

@@ -120,13 +120,15 @@ class SpotifyService {
         spotifyApi.getArtists([
           "3TVXtAsR1Inumwj472S9r4", // Drake
           "06HL4z0CvFAxyc27GXpf02", // Taylor Swift
+          "2UwqpfQtNuhBwviIC0f2ie",
+          "6Te49r3A6f5BiIgBRxH7FH",
         ]),
-        spotifyApi.searchTracks("genre:pop year:2024", {
+        spotifyApi.searchTracks("genre:rap year:2024", {
           limit: 10,
           market: "FR",
         }),
         spotifyApi.getCategories({
-          limit: 10,
+          limit: 7,
           country: "FR",
         }),
         spotifyApi.searchPlaylists("top hits 2025", {

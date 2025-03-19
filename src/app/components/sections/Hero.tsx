@@ -2,9 +2,9 @@
 
 import type React from "react"
 import { useState, useEffect } from "react"
-import { motion, useAnimation, AnimatePresence } from "framer-motion"
+import { motion, useAnimation} from "framer-motion"
 import { HiMagnifyingGlass, HiSparkles, HiMusicalNote } from "react-icons/hi2"
-import { FaSpotify, FaHeadphones, FaCompactDisc, FaPlay } from "react-icons/fa"
+import { FaSpotify, FaHeadphones, FaCompactDisc} from "react-icons/fa"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
@@ -17,14 +17,10 @@ interface HeroSectionProps {
   handleSearch: (e: React.FormEvent, query: string) => void
 }
 
-// Suggestions de recherche populaires
-const popularSearches = ["Pop", "Hip-hop", "Rock", "Jazz", "Électronique"]
-
 export function HeroSection({ searchQuery, setSearchQuery, handleSearch }: HeroSectionProps) {
   const { data: session } = useSession()
   const controls = useAnimation()
   const [currentTextIndex, setCurrentTextIndex] = useState(0)
-  const [showSuggestions, setShowSuggestions] = useState(false)
 
   const rotatingTexts = ["Musique", "Rythme", "Mélodie", "Passion", "Émotion"]
 
@@ -165,8 +161,6 @@ export function HeroSection({ searchQuery, setSearchQuery, handleSearch }: HeroS
             <form
               onSubmit={(e) => handleSearch(e, searchQuery)}
               className="relative"
-              onFocus={() => setShowSuggestions(true)}
-              onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
             >
               <HiMagnifyingGlass className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
               <Input
@@ -185,7 +179,7 @@ export function HeroSection({ searchQuery, setSearchQuery, handleSearch }: HeroS
             </form>
 
             {/* Suggestions de recherche populaires */}
-            <AnimatePresence>
+            {/* <AnimatePresence>
               {showSuggestions && (
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
@@ -204,7 +198,7 @@ export function HeroSection({ searchQuery, setSearchQuery, handleSearch }: HeroS
                         className="bg-white/10 hover:bg-white/20 text-white cursor-pointer transition-all border border-white/5 hover:border-white/20"
                         onClick={() => {
                           setSearchQuery(term)
-                          handleSearch(new Event("submit") as any, term)
+                          handleSearch(new Event("submit") , term)
                         }}
                       >
                         {term}
@@ -213,7 +207,7 @@ export function HeroSection({ searchQuery, setSearchQuery, handleSearch }: HeroS
                   </div>
                 </motion.div>
               )}
-            </AnimatePresence>
+            </AnimatePresence> */}
           </motion.div>
 
           {/* CTA supplémentaire */}
