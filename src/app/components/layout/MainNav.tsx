@@ -86,7 +86,7 @@ export function MainNav() {
   return (
     <div
       className={cn(
-        "sticky top-0 z-30 w-full transition-all duration-300",
+        "sticky top-0 z-30 container transition-all duration-300",
         scrolled
           ? "bg-background/80 backdrop-blur-lg border-b shadow-sm"
           : "bg-background border-b border-border/40"
@@ -99,8 +99,8 @@ export function MainNav() {
             <div className="relative w-8 h-8 bg-gradient-to-br from-primary to-primary/70 rounded-full flex items-center justify-center mr-2">
               <FaMusic className="h-4 w-4 text-primary-foreground" />
             </div>
-            <span className="font-heading font-bold text-lg hidden sm:inline-block">
-              Sonora
+            <span className="font-heading font-bold text-green-600 text-lg hidden sm:inline-block">
+              NduleApp
             </span>
           </Link>
 
