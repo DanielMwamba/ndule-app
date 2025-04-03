@@ -29,7 +29,7 @@ export function HeroSection({ searchQuery, setSearchQuery, handleSearch }: HeroS
     const interval = setInterval(() => {
       controls
         .start({
-          opacity: 0,
+          opacity: "0",
           y: 20,
           transition: { duration: 0.3 },
         })
@@ -44,7 +44,7 @@ export function HeroSection({ searchQuery, setSearchQuery, handleSearch }: HeroS
     }, 3000)
 
     return () => clearInterval(interval)
-  }, [controls])
+  }, [controls, rotatingTexts.length])
 
   // Effet de particules musicales
   const particles = Array.from({ length: 20 }).map((_, i) => ({
@@ -130,7 +130,7 @@ export function HeroSection({ searchQuery, setSearchQuery, handleSearch }: HeroS
           </motion.div>
 
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6 tracking-tight leading-tight">
-            Découvrez la{" "}
+            Découvrez{" "}
             <span className="relative inline-block">
               <motion.span
                 animate={controls}
